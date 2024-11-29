@@ -15,13 +15,15 @@ import {
   formatEther,
   http,
   parseEther,
+  parseGwei,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-// import {
-//  hardhat, // holesky,
-//   scrollSepolia,
-//   sepolia
-// } from "viem/chains";
+import {
+  //  hardhat, 
+  holesky,
+  // scrollSepolia,
+  sepolia
+} from "viem/chains";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { ChangeChain } from "~~/components/ChangeChain";
 // import { WriteContractReturnType } from "wagmi/actions";
@@ -114,6 +116,7 @@ const Home: NextPage = () => {
       args: [inputAddress.trim(), parseEther(dailyLimitValue)],
       account: accounts[indexAccount],
       gas: 500000n,
+      gasPrice: parseGwei("2")
     });
   };
 
@@ -146,7 +149,8 @@ const Home: NextPage = () => {
     contractName: "Faucet",
     eventName: "Withdrawal",
     // fromBlock: 6951976n, // scrollSepolia
-    fromBlock: 2793698n, // holesky
+    fromBlock: targetNetwork.id == holesky.id ? 2793698n : 7178706n,
+    // fromBlock: 7178706n, // sepolia
     // fromBlock: 0n, // hardhat
     blockData: true,
     watch: true,

@@ -55,6 +55,7 @@ const getRPCUrl = (chainId: number) => {
       break;
     case chains.sepolia.id:
       RPC = "https://rpc.sepolia.ethpandaops.io";
+      // RPC = "https://ethereum-sepolia-rpc.publicnode.com";
       break;
     case chains.holesky.id:
       RPC = "https://ethereum-holesky-rpc.publicnode.com/";

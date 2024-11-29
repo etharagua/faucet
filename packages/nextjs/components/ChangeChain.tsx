@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { holesky } from "viem/chains";
+import { holesky, sepolia } from "viem/chains";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
@@ -85,6 +85,17 @@ export function ChangeChain() {
                   <span className="">Holesky</span>
                 </span>
               )}
+              {targetNetwork.id == sepolia.id && (
+                <span className="flex flex-row gap-2 text-2xl align-middle">
+                  <img
+                    src="/images/ethereum-logo.png"
+                    alt="Imagen 4"
+                    width={30}
+                    className="object-contain rounded-lg ml-[-5px]"
+                  />{" "}
+                  <span className="">Sepolia</span>
+                </span>
+              )}
             </button>
           </span>
 
@@ -121,6 +132,17 @@ export function ChangeChain() {
                     <span className="flex flex-row gap-2 text-xl">
                       <img src="/images/ethereum-logo.png" alt="Imagen 3" width={30} className="object-contain ml-2" />{" "}
                       Ethereum Holesky
+                    </span>
+                  </button>
+                  <button
+                    className={`${buttonClass} ${
+                      targetNetwork.id === sepolia.id && "bg-primary text-white shadow-md border-primary"
+                    }`}
+                    onClick={() => clickChain(sepolia.id)}
+                  >
+                    <span className="flex flex-row gap-2 text-xl">
+                      <img src="/images/ethereum-logo.png" alt="Imagen 4" width={30} className="object-contain ml-2" />{" "}
+                      Ethereum Sepolia
                     </span>
                   </button>
                   {/* <button
