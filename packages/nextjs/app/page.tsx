@@ -22,7 +22,7 @@ import {
   //  hardhat, 
   holesky,
   // scrollSepolia,
-  sepolia
+  // sepolia
 } from "viem/chains";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { ChangeChain } from "~~/components/ChangeChain";
