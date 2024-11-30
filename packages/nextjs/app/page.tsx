@@ -116,7 +116,7 @@ const Home: NextPage = () => {
       args: [inputAddress.trim(), parseEther(dailyLimitValue)],
       account: accounts[indexAccount],
       gas: 500000n,
-      gasPrice: parseGwei("2")
+      gasPrice: parseGwei("6")
     });
   };
 
