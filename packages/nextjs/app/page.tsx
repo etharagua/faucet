@@ -18,24 +18,23 @@ import {
   parseGwei,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import {
-  //  hardhat, 
-  holesky,
-  // scrollSepolia,
-  // sepolia
-} from "viem/chains";
-import { useAccount, usePublicClient, useWriteContract } from "wagmi";
+// import { holesky } from "viem/chains";
+import { 
+  // useAccount, 
+  usePublicClient, useWriteContract } from "wagmi";
 import { ChangeChain } from "~~/components/ChangeChain";
 // import { WriteContractReturnType } from "wagmi/actions";
 import { AddressInput } from "~~/components/scaffold-eth";
 import {
-  useScaffoldEventHistory,
+  // useScaffoldEventHistory,
   useScaffoldReadContract,
   useTargetNetwork,
   useTransactor,
 } from "~~/hooks/scaffold-eth";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth/useScaffoldContract";
-import { getAlchemyHttpUrl, getBlockExplorerTxLink } from "~~/utils/scaffold-eth";
+import { getAlchemyHttpUrl, 
+  // getBlockExplorerTxLink
+ } from "~~/utils/scaffold-eth";
 
 // import { useGlobalState } from "~~/services/store/store";
 // import { getTargetNetworks } from "~~/utils/scaffold-eth/networks";
@@ -65,7 +64,7 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [inputAddress, setInputAddress]: any = useState();
 
-  const { address: connectedAddress } = useAccount();
+  // const { address: connectedAddress } = useAccount();
 
   const { targetNetwork } = useTargetNetwork();
 
@@ -140,57 +139,80 @@ const Home: NextPage = () => {
     }
   };
 
-  const {
-    data: withdrawalEvents,
-    isLoading: isLoadingEvents,
-    error: errorReadingEvents,
-    refetch: refetchWithdrawalEvents,
-  } = useScaffoldEventHistory({
-    contractName: "Faucet",
-    eventName: "Withdrawal",
-    // fromBlock: 6951976n, // scrollSepolia
-    fromBlock: targetNetwork.id == holesky.id ? 2793698n : 7178706n,
-    // fromBlock: 7178706n, // sepolia
-    // fromBlock: 0n, // hardhat
-    blockData: true,
-    watch: true,
-    filters: { _user: connectedAddress ?? "" },
-  });
+  // const {
+  //   data: withdrawalEvents,
+  //   isLoading: isLoadingEvents,
+  //   error: errorReadingEvents,
+  //   refetch: refetchWithdrawalEvents,
+  // } = useScaffoldEventHistory({
+  //   contractName: "Faucet",
+  //   eventName: "Withdrawal",
+  //   // fromBlock: 6951976n, // scrollSepolia
+  //   fromBlock: targetNetwork.id == holesky.id ? 2793698n : 7178706n,
+  //   // fromBlock: 7178706n, // sepolia
+  //   // fromBlock: 0n, // hardhat
+  //   blockData: true,
+  //   watch: true,
+  //   filters: { _user: connectedAddress ?? "" },
+  // });
 
-  useEffect(() => {
-    refetchWithdrawalEvents();
-  }, [connectedAddress]);
+  // useEffect(() => {
+  //   refetchWithdrawalEvents();
+  // }, [connectedAddress]);
 
   dayjs.extend(relativeTime);
   dayjs.locale("es");
 
-  // const recaptchaRef = useRef<ReCAPTCHA>(null);
-  // const [isVerified, setIsVerified] = useState(false);
+  // const MostrarEventos = () => {
+  //   return (<>
+  //   {isLoadingEvents ? (
+  //     <div className="mt-8 text-xl font-bold text-center">Cargando Transacciones...</div>
+  //   ) : (
+  //     <div className="flex flex-col justify-center flex-grow w-full mt-6 mb-4 md:w-5/6 lg:w-4/5">
+  //       <div className="my-2 text-xl font-bold text-center">
+  //         {connectedAddress ? "Transacciones a tu cuenta" : "Últimas Transacciones"}
+  //       </div>
+  //       <div className="overflow-x-auto overflow-y-auto border-2 shadow-2xl rounded-xl border-primary max-h-60">
+  //         <table className="table w-full bg-base-100 table-zebra">
+  //           <thead className="text-primary font-black bg-[#F2F4FF]">
+  //             <tr>
+  //               <th>n°</th>
+  //               <th>Tx</th>
+  //               <th>Monto</th>
+  //               <th>Cuando</th>
+  //             </tr>
+  //           </thead>
+  //           <tbody>
+  //             {withdrawalEvents &&
+  //               withdrawalEvents.map((event: any, index: number) => {
+  //                 return (
+  //                   <tr key={index}>
+  //                     <th>{withdrawalEvents?.length - index}</th>
 
-  // async function handleCaptchaSubmission(token: string | null) {
-  //   try {
-  //     if (token) {
-  //       await fetch("/api", {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ token }),
-  //       });
-  //       setIsVerified(true);
-  //     }
-  //   } catch (e) {
-  //     setIsVerified(false);
-  //   }
-  // }
-
-  // const handleChange = (token: string | null) => {
-  //   handleCaptchaSubmission(token);
-  // };
-
-  // function handleExpired() {
-  //   setIsVerified(false);
+  //                     <td className="text-blue-500">
+  //                       <a
+  //                         href={getBlockExplorerTxLink(targetNetwork.id, event?.transactionHash)}
+  //                         target="_blank"
+  //                         rel="noreferrer"
+  //                       >
+  //                         <span className="lg:hidden" title={event?.transactionHash}>
+  //                           {event?.transactionHash.slice(0, 6)}...{event?.transactionHash.slice(-4)}
+  //                         </span>
+  //                         <span className="hidden lg:table-cell">{event?.transactionHash}</span>
+  //                       </a>
+  //                     </td>
+  //                     <td>{formatEther(event.args[1])} ETH</td>
+  //                     <td>{dayjs.unix((event?.blockData?.timestamp).toString()).fromNow()}</td>
+  //                   </tr>
+  //                 );
+  //               })}
+  //           </tbody>
+  //         </table>
+  //       </div>
+  //     </div>
+  //   )}
+  //   {errorReadingEvents && <div className="mt-2 text-red-500">loading...</div>}
+  //   </>);
   // }
 
   return (
@@ -257,53 +279,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      {isLoadingEvents ? (
-        <div className="mt-8 text-xl font-bold text-center">Cargando Transacciones...</div>
-      ) : (
-        <div className="flex flex-col justify-center flex-grow w-full mt-6 mb-4 md:w-5/6 lg:w-4/5">
-          <div className="my-2 text-xl font-bold text-center">
-            {connectedAddress ? "Transacciones a tu cuenta" : "Últimas Transacciones"}
-          </div>
-          <div className="overflow-x-auto overflow-y-auto border-2 shadow-2xl rounded-xl border-primary max-h-60">
-            <table className="table w-full bg-base-100 table-zebra">
-              <thead className="text-primary font-black bg-[#F2F4FF]">
-                <tr>
-                  <th>n°</th>
-                  <th>Tx</th>
-                  <th>Monto</th>
-                  <th>Cuando</th>
-                </tr>
-              </thead>
-              <tbody>
-                {withdrawalEvents &&
-                  withdrawalEvents.map((event: any, index: number) => {
-                    return (
-                      <tr key={index}>
-                        <th>{withdrawalEvents?.length - index}</th>
-
-                        <td className="text-blue-500">
-                          <a
-                            href={getBlockExplorerTxLink(targetNetwork.id, event?.transactionHash)}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <span className="lg:hidden" title={event?.transactionHash}>
-                              {event?.transactionHash.slice(0, 6)}...{event?.transactionHash.slice(-4)}
-                            </span>
-                            <span className="hidden lg:table-cell">{event?.transactionHash}</span>
-                          </a>
-                        </td>
-                        <td>{formatEther(event.args[1])} ETH</td>
-                        <td>{dayjs.unix((event?.blockData?.timestamp).toString()).fromNow()}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {errorReadingEvents && <div className="mt-2 text-red-500">loading...</div>}
+      {/* <MostrarEventos/> */}
     </div>
   );
 };
