@@ -54,8 +54,9 @@ const getRPCUrl = (chainId: number) => {
       // RPC =`https://${RPC_CHAIN_NAMES[chainId]}.g.alchemy.com/v2/${scaffoldConfig.alchemyApiKey}`;
       break;
     case chains.sepolia.id:
+      RPC =`https://${RPC_CHAIN_NAMES[chainId]}.g.alchemy.com/v2/${scaffoldConfig.alchemyApiKey}`;
       // RPC = "https://rpc.sepolia.ethpandaops.io";
-      RPC = "https://ethereum-sepolia-rpc.publicnode.com";
+      // RPC = "https://ethereum-sepolia-rpc.publicnode.com";
       break;
     case chains.holesky.id:
       RPC = "https://ethereum-holesky-rpc.publicnode.com/";

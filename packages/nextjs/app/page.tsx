@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import dayjs from "dayjs";
-import "dayjs/locale/es";
-import relativeTime from "dayjs/plugin/relativeTime";
+// import dayjs from "dayjs";
+// import "dayjs/locale/es";
+// import relativeTime from "dayjs/plugin/relativeTime";
 import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 // import ReCAPTCHA from "react-google-recaptcha";
@@ -114,8 +114,11 @@ const Home: NextPage = () => {
       functionName: "requestWithdraw",
       args: [inputAddress.trim(), parseEther(dailyLimitValue)],
       account: accounts[indexAccount],
-      gas: 500000n,
-      gasPrice: parseGwei("6")
+      // gas: 500000n,
+      // gasPrice: parseGwei("6")
+      gas: BigInt(String(gasMax)),
+      maxPriorityFeePerGas: parseGwei(String(priorityFee)),
+      maxFeePerGas: parseGwei(String(precioGas)),
     });
   };
 
@@ -160,8 +163,8 @@ const Home: NextPage = () => {
   //   refetchWithdrawalEvents();
   // }, [connectedAddress]);
 
-  dayjs.extend(relativeTime);
-  dayjs.locale("es");
+  // dayjs.extend(relativeTime);
+  // dayjs.locale("es");
 
   // const MostrarEventos = () => {
   //   return (<>
@@ -214,6 +217,10 @@ const Home: NextPage = () => {
   //   {errorReadingEvents && <div className="mt-2 text-red-500">loading...</div>}
   //   </>);
   // }
+
+  const [gasMax, setGasMax] = useState(100000);
+  const [precioGas, setPrecioGas] = useState(5);
+  const [priorityFee, setPriorityFee] = useState(1);
 
   return (
     <div
@@ -276,6 +283,127 @@ const Home: NextPage = () => {
                 <span>Envíame ETH</span>
               </button>
             </div>
+
+            <div className="px-4 border-2 border-primary rounded-xl">
+              <div className="text-center">
+                <p className="font-bold">
+                  Si tu transacción está teniendo problemas, intenta subir un poco estos parámetros y probar de nuevo.
+                  Lee como funcionan.
+                </p>
+              </div>
+
+              <div className="flex flex-col justify-center mx-8 my-4 mb-4 gap-y-4 gap-x-16 sm:flex-row">
+                <div className="flex flex-col w-full sm:w-1/3">
+                  <label className="text-center label-text" htmlFor="gasMax">
+                    Límite de Gas a enviar
+                  </label>
+                  <div className="flex-col text-center">
+                    <input
+                      type="range"
+                      value={gasMax}
+                      onChange={e => setGasMax(Number(e.target.value))}
+                      className="w-full h-2 bg-white rounded-lg cursor-pointer accent-primary"
+                      step={50000}
+                      min={50000}
+                      max={1000000}
+                      id="gasMax"
+                    />
+                    <span className="ml-2 font-bold">{gasMax.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col w-full sm:w-1/3">
+                  <label className="text-center label-text" htmlFor="precioGas">
+                    Precio del Gas
+                  </label>
+                  <div className="flex-col text-center">
+                    <input
+                      type="range"
+                      value={precioGas}
+                      onChange={e => setPrecioGas(Number(e.target.value))}
+                      className="w-full h-2 bg-white rounded-lg cursor-pointer accent-primary"
+                      step={1}
+                      min={1}
+                      max={20}
+                      id="precioGas"
+                    />
+                    <div className="flex-row text-center">
+                      <span className="ml-2 font-bold">Fee per Gas: {precioGas.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col w-full sm:w-1/3">
+                  <label className="text-center label-text" htmlFor="priorityFee">
+                    Priority Fee
+                  </label>
+                  <div className="flex-col text-center">
+                    <input
+                      type="range"
+                      value={priorityFee}
+                      onChange={e => setPriorityFee(Number(e.target.value))}
+                      className="w-full h-2 bg-white rounded-lg cursor-pointer accent-primary"
+                      step={1}
+                      min={1}
+                      max={10}
+                      id="priorityFee"
+                    />
+                    <div className="flex-row text-center">
+                      <span className="ml-2 font-bold">Priority Fee: {priorityFee.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="container p-4 mx-auto text-justify sm:text-left">
+                <h2 className="mb-4 text-lg font-bold">Información sobre estos parámetros</h2>
+                <p className="mb-2 font-medium ">
+                  <b>Límite de Gas a enviar:</b> El gas es una unidad de medida que se utiliza para calcular el costo de
+                  ejecutar una transacción o un contrato inteligente en la red de Ethereum o la mayoría de redes EVM
+                  (Ethereum Virtual Machine). Este se utiliza para pagar a los mineros (o validadores) por el trabajo
+                  que realizan para procesar y validar las transacciones en la red.
+                </p>
+                <p className="mb-2 font-medium ">
+                  <b>Precio del Gas: El precio del Gas se calcula usando varios factores, incluyendo:</b>
+                </p>
+                <p className="mb-2 font-medium ">
+                  <b>Fee per Gas:</b> El Fee per Gas es el precio máximo por gas que estás dispuesto a pagar por una
+                  transacción en la red, sin incluir el "soborno o incentivo" adicional para dar prioridad a la
+                  transacción.
+                </p>
+                <p className="mb-2 font-medium ">
+                  <b>Priority Fee:</b> El Priority Fee es el precio adicional que estás dispuesto a pagar por gas para
+                  dar prioridad a la transacción y que se procese de manera más rápida. Es el "soborno o incentivo"
+                  adicional que das a los mineros o validadores.
+                </p>
+                <p className="mb-2 font-medium ">
+                  <b>Así que, ¿cuál es el precio en Ether de la transacción?</b>
+                  <br />
+                  El precio en Ether de la transacción se calcula de la siguiente manera:
+                </p>
+                <p className="mb-2 font-bold">
+                  Precio en Ether = (Costo total de la transacción en gas * maxFeePerGas) + maxPriorityFeePerGas
+                </p>
+                <p className="mb-2 font-medium ">
+                  Por ejemplo, si el costo total de la transacción en gas es de 100.000 gas, el maxFeePerGas es de 20
+                  Gwei (0,00000002 Ether) y el maxPriorityFeePerGas es de 10 Gwei (0,00000001 Ether), el precio en Ether
+                  de la transacción sería:
+                </p>
+                <p className="mb-2 font-bold">
+                  Precio en Ether = (100.000 * 0,00000002) + 0,00000001 = 0,00200001 Ether
+                </p>
+                <p className="mb-2">
+                  (Estos precios se reducen significativamente en redes L2 ya que estas poseen mecanismos para reducir
+                  los costos de gas de las transacciones, si quieres ver más sobre los precios en distintas redes L2,
+                  puedes consultar este link:{" "}
+                  <a className="font-bold" href="https://l2fees.info/" target="_blank" rel="noreferrer">
+                    https://l2fees.info/
+                  </a>
+                  )
+                </p>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
