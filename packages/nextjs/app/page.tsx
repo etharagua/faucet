@@ -324,7 +324,7 @@ const Home: NextPage = () => {
                       className="w-full h-2 bg-white rounded-lg cursor-pointer accent-primary"
                       step={1}
                       min={1}
-                      max={30}
+                      max={70}
                       id="precioGas"
                     />
                     <div className="flex-row text-center">
